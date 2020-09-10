@@ -19,14 +19,19 @@
     "react-test-renderer": "^16.13.1"
   },
   "scripts": {
+    "postversion": "genversion --semi --es6 src/lib/version.js",
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build:prod": "cross-env REACT_APP_ENV=prod react-scripts build",
+    "build:dev": "cross-env REACT_APP_ENV=dev react-scripts build",
+    "postbuild:prod": "mkdirp packages/prod && npm-build-zip --destination=packages/prod",
+    "postbuild:dev": "mkdirp packages/dev && npm-build-zip --destination=packages/dev",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint src",
     "coverage": "npm test -- --coverage --watchAll=false --reporter=html",
     "prettier:check": "prettier --check src/**/*.js",
-    "prettier:write": "prettier --write src/**/*.js"
+    "prettier:write": "prettier --write src/**/*.js",
+    "serve": "serve build -l 5010"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -44,6 +49,7 @@
     ]
   },
   "devDependencies": {
+    "cross-env": "^7.0.2",
     "eslint": "^6.6.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-plugin-import": "^2.22.0",
@@ -51,6 +57,10 @@
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.20.6",
     "eslint-plugin-react-hooks": "^4.1.0",
-    "prettier": "^2.1.1"
+    "genversion": "^2.2.1",
+    "mkdirp": "^1.0.4",
+    "npm-build-zip": "^1.0.2",
+    "prettier": "^2.1.1",
+    "serve": "^11.3.2"
   }
 }

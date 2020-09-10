@@ -4,6 +4,7 @@ import { Button, ThemeProvider, makeStyles } from '@material-ui/core';
 import { Book as BookIcon } from 'react-feather';
 import clsx from 'clsx';
 import theme from './theme';
+import config from './config';
 
 const useStyles = makeStyles(() => ({
   app: {
@@ -20,6 +21,7 @@ const App = ({ className, ...rest }) => {
         <Button variant="contained" color="primary" startIcon={<BookIcon />}>
           Learn React
         </Button>
+        {config.API_BASE_URL}
       </div>
     </ThemeProvider>
   );
