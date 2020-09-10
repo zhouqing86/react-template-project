@@ -1,13 +1,37 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import HomeView from 'src/views/HomeView';
-import VersionView from 'src/views/VersionView';
-import NotFoundView from 'src/views/NotFoundView';
+
+import LazyView from 'src/components/LazyView';
+
+const HomeView = React.lazy(() => import('src/views/HomeView'));
+const VersionView = React.lazy(() => import('src/views/VersionView'));
+const NotFoundView = React.lazy(() => import('src/views/NotFoundView'));
 
 const routes = [
-  { path: '/', element: <HomeView /> },
-  { path: '/version', element: <VersionView /> },
-  { path: '/404', element: <NotFoundView /> },
+  {
+    path: '/',
+    element: (
+      <LazyView>
+        <HomeView />
+      </LazyView>
+    ),
+  },
+  {
+    path: '/version',
+    element: (
+      <LazyView>
+        <VersionView />
+      </LazyView>
+    ),
+  },
+  {
+    path: '/404',
+    element: (
+      <LazyView>
+        <NotFoundView />
+      </LazyView>
+    ),
+  },
   { path: '*', element: <Navigate to="/404" /> },
 ];
 
