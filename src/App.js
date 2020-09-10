@@ -1,34 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Button, ThemeProvider, makeStyles } from '@material-ui/core';
-import { Book as BookIcon } from 'react-feather';
-import clsx from 'clsx';
+import { useRoutes } from 'react-router-dom';
+import { ThemeProvider } from '@material-ui/core';
 import theme from './theme';
-import config from './config';
+import routes from './routes';
 
-const useStyles = makeStyles(() => ({
-  app: {
-    textAlign: 'center',
-  },
-}));
+const App = () => {
+  const routing = useRoutes(routes);
 
-const App = ({ className, ...rest }) => {
-  const classes = useStyles();
-
-  return (
-    <ThemeProvider theme={theme}>
-      <div className={clsx(className, classes.app)} {...rest}>
-        <Button variant="contained" color="primary" startIcon={<BookIcon />}>
-          Learn React
-        </Button>
-        {config.API_BASE_URL}
-      </div>
-    </ThemeProvider>
-  );
-};
-
-App.propTypes = {
-  className: PropTypes.string,
+  return <ThemeProvider theme={theme}>{routing}</ThemeProvider>;
 };
 
 export default App;
