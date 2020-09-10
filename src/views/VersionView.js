@@ -1,8 +1,9 @@
 import React from 'react';
 import { version } from 'src/lib/version';
+import Page from 'src/components/Page';
 
 const VersionView = () => {
-  return <>{version}</>;
+  return <Page title="Version">{version}</Page>;
 };
 
 export default VersionView;

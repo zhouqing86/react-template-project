@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { Box, makeStyles } from '@material-ui/core';
@@ -20,7 +21,9 @@ const Header = ({ className, ...rest }) => {
 
   return (
     <Box className={clsx(classes.root, className)} {...rest}>
-      <Logo className={classes.logo} />
+      <Link to="/">
+        <Logo className={classes.logo} />
+      </Link>
     </Box>
   );
 };
