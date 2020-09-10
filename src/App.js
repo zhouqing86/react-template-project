@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, ThemeProvider, makeStyles } from '@material-ui/core';
+import { Book as BookIcon } from 'react-feather';
 import clsx from 'clsx';
 import theme from './theme';
 
@@ -16,7 +17,7 @@ const App = ({ className, ...rest }) => {
   return (
     <ThemeProvider theme={theme}>
       <div className={clsx(className, classes.app)} {...rest}>
-        <Button variant="contained" color="primary">
+        <Button variant="contained" color="primary" startIcon={<BookIcon />}>
           Learn React
         </Button>
       </div>
