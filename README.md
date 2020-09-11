@@ -1,68 +1,103 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+React app template
+=============================
 
-## Available Scripts
 
-In the project directory, you can run:
+## Development
 
-### `yarn start`
+### Technical stack
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- Node.js
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+#### Application related library
 
-### `yarn test`
+- react
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- react-router
 
-### `yarn build`
+- formik
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- yup
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+- axios
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+#### Build tool
 
-### `yarn eject`
+- yarn
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+#### Suggested IDEA
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- VSCode
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Local environment
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- Run `yarn` to download all dependencies into node_modules directory
 
-## Learn More
+- Run `yarn test` to run all unit tests, `yarn lint` to static check the code
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- Run `yarn mockServer` to start local mock api server with [http://localhost:4010](http://localhost:4010)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Run `yarn start` to start local environment and can be visited with [http://localhost:3000](http://localhost:3000)
 
-### Code Splitting
+### Build
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+- Run `yarn version` to change the version that will be built
 
-### Analyzing the Bundle Size
+- Run `yarn build` to build static files for `production` environment into `build` directory, can start a server with `yarn serve` and then visit [http://localhost:5010](http://localhost:5010)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+- Run `yarn build:dev` to build static files for `development` environment into `build` directory, can start a server with `yarn serve` and then visit [http://localhost:5010](http://localhost:5010)
 
-### Making a Progressive Web App
+## Deployment
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+### Deployment with one command
 
-### Advanced Configuration
+- Install docker in your local machine, refer to [Get Docker](https://docs.docker.com/get-docker/).
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+- Make sure your private key to login the remote machine is located at `~/.ssh`
 
-### Deployment
+- Make sure the remote server is using *nix system
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+- Check current version in dev/prod environment with `http://[host:port]/version`
 
-### `yarn build` fails to minify
+- Pull docker images that support ansible:
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+  ```
+  docker pull wendll/node_ansible_container:latest
+  ```
+
+  > If you don't want to pull image from docker hub, you can build the container by yourself: `docker build -t wendll/node_ansible_container .`
+
+- Run docker locally with:
+
+  ```
+  docker-compose run deploy 
+  ```
+
+  In docker container interactive shell console, run `./deploy/to-dev.sh --key [your private key name]`
+
+  > Notice: private key name default is `id_rsa`, can override it with `--key`
+
+  Or you can just run followed command example to do the deployment:
+
+  ```
+  docker-compose run deploy ./deploy/to-[env].sh [version] --key [your private key name] [--copyFromLocal] [--freshBuild] ....
+  ```
+
+#### To DEV environment 
+
+- Check application version before newly deployment [http://dev_host:5000/version](http://dev_host:5000/version)
+
+- After login docker, can run followed commands to do the deployment
+
+  ```
+  ./deploy/to-dev.sh 0.1.7 --copyFromLocal --freshBuild
+  ```
+
+  > `--copyFromLocal` will copy package (build with `yarn build:dev` in local development machine) from local to remote server
+
+You can also just run one command to execute the deployment in your local machine:
+
+```
+docker-compose run deploy ./deploy/to-dev.sh 0.1.7 --copyFromLocal --freshBuild
+```
+
+- Check application version after newly deployment [http://dev_host:5000/version](http://dev_host:5000/version)

@@ -1,0 +1,7 @@
+---
+
+app_port: "{{ app_port }}"
+deploy_version_file: "{{ deploy_version_file }}"
+new_deploy_version: "{{ deploy_version }}"
+deploy_env: "{{ deploy_env }}"
+node_version: "{{ node_version }}"

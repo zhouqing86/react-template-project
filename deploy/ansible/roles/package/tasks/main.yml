@@ -1,0 +1,11 @@
+---
+
+- name: Check whether packages related directory exist
+  file:
+    path: $HOME/dynamicform/packages/{{ deploy_env }}
+    state: directory
+    
+- name: copy package from local host to remote host
+  copy:
+    src: "{{ deploy_env }}/{{ deploy_version_file }}"
+    dest: "$HOME/dynamicform/packages/{{ deploy_env }}/{{ deploy_version_file }}"

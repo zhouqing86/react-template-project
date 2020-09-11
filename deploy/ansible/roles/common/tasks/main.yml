@@ -1,0 +1,40 @@
+---
+
+- name: Check whether app related directory exist
+  file:
+    path: "$HOME/dynamicform/{{ app_name }}/{{ deploy_env }}"
+    state: directory
+
+- name: Copy exectute files to remote 
+  template:
+    src: "{{ app_name }}.sh.j2"
+    dest: "$HOME/dynamicform/{{ app_name }}.sh"
+    mode: '0744'
+  
+- name: Check that the specific npx exists
+  stat:
+    path: $HOME/dynamicform/node/node-v{{ node_version }}-linux-x64/bin/npx
+  register: npx_result
+
+- name: Check whether node related directory exist
+  file:
+    path: $HOME/dynamicform/node
+    state: directory
+  when: not npx_result.stat.exists
+
+- name: Download node package
+  get_url:
+    url: "https://nodejs.org/dist/v{{ node_version }}/node-v{{ node_version }}-linux-x64.tar.gz"
+    dest: $HOME/dynamicform/node/node-v{{ node_version }}-linux-x64.tar.gz
+    mode: '0440'
+  when: not npx_result.stat.exists
+
+- name: Unarchive node related file
+  unarchive:
+    src: $HOME/dynamicform/node/node-v{{ node_version }}-linux-x64.tar.gz
+    dest: $HOME/dynamicform/node
+    remote_src: yes
+  when: not npx_result.stat.exists
+
+- name: Restart application server
+  command: $HOME/dynamicform/{{ app_name }}.sh restart {{ deploy_env }} {{ new_deploy_version }} 

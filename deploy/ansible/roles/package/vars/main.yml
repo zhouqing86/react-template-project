@@ -1,0 +1,5 @@
+---
+
+deploy_version_file: "{{ deploy_version_file }}"
+deploy_version: "{{ deploy_version }}"
+deploy_env: "{{ deploy_env }}"

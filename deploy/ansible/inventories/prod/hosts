@@ -1,0 +1,2 @@
+[web]
+prod_host ansible_user=ec2-user

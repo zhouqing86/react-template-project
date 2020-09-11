@@ -1,0 +1,98 @@
+#!/bin/bash
+
+usage(){
+    echo "Usage:$0 [start|stop|ps|status|restart|reload] [environment] [version]"
+    exit 1
+}
+
+if [ $# -lt 2 ]
+then
+    usage
+fi
+
+COMMAND=$1
+ENVIRONMENT=$2
+VERSION=$3
+
+APP="{{ app_name }}"
+BASEDIR="$(cd `dirname $0`; pwd)"
+PACKAGES_DIR=$BASEDIR/packages/$ENVIRONMENT
+FRONTEND_DIR=$BASEDIR/$APP/$ENVIRONMENT
+APP_CURRENT_DIR=$FRONTEND_DIR/current
+PORT="{{ app_port }}"
+CURRENT_NODE_VERSION="{{ node_version }}"
+NPX_COMMAND=$BASEDIR/node/node-v${CURRENT_NODE_VERSION}-linux-x64/bin/npx
+
+PACKAGE_FILE=${PACKAGES_DIR}/${APP}_${VERSION}.zip
+
+check(){
+    if [ ! -d $FRONTEND_DIR ]
+    then
+        echo "$FRONTEND_DIR not exist"
+        exit 1
+    fi
+
+    if [ ! -f $PACKAGE_FILE ]
+    then
+        echo "$PACKAGE_FILE not exist"
+        exit 1
+    fi
+}
+
+stop(){
+    echo "ps -ef | grep '$APP_CURRENT_DIR' | awk '{print \$2}' | xargs kill"
+    PID=`ps -ef | grep "$APP_CURRENT_DIR" | grep -v grep | awk '{print $2}'`
+
+    if [ "" != "$PID" ]
+    then
+        kill -9 $PID
+    fi
+}
+
+start(){
+    check
+    echo "Start============="
+    [ -d "$FRONTEND_DIR/$APP_$VERSION" ] && rm -rf $FRONTEND_DIR/$APP_$VERSION
+    unzip $PACKAGE_FILE -d $FRONTEND_DIR/$APP_$VERSION
+    unlink $APP_CURRENT_DIR
+    ln -s $FRONTEND_DIR/$APP_$VERSION $APP_CURRENT_DIR
+    [ ! -d $FRONTEND_DIR/logs ] && mkdir $FRONTEND_DIR/logs
+    echo "nohup $NPX_COMMAND serve $APP_CURRENT_DIR -l $PORT >>$FRONTEND_DIR/logs/$APP_$VERSION.log 2>&1 &"
+    nohup $NPX_COMMAND serve -s $APP_CURRENT_DIR -l $PORT >>$FRONTEND_DIR/logs/$APP_$VERSION.log 2>&1 &
+    echo $! > $FRONTEND_DIR/pid
+    echo "End==============="
+}
+
+status(){
+    ps -ef | grep "$APP_CURRENT_DIR" | grep -v grep
+    RETVAL=$?
+}
+
+RETVAL=0
+
+case $COMMAND in
+    start)
+        if [ $# -lt 3 ]
+        then
+            usage
+        fi
+        start
+        status
+        ;;
+    restart | reload)
+        stop
+        start
+        status
+        ;;
+    stop)
+        stop
+        ;;
+    ps | status)
+        status
+        ;;
+    *)
+        usage
+        ;;
+esac
+
+exit $RETVAL
