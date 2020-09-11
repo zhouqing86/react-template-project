@@ -1,0 +1,9 @@
+{
+  "users": [
+    { "id": 1, "username": "lisi", "alias": "李四", "email": "lisi@test.com", "phone": "1111111111" },
+    { "id": 2, "username": "zhangsan", "alias": "张三", "email": "zhangsan@test.com", "phone": "222222222" },
+    { "id": 3, "username": "wanger", "alias": "王二", "email": "wanger@test.com", "phone": "33333333" },
+    { "id": 4, "username": "lilei", "alias": "李雷", "email": "lilei@test.com",  "phone": "444444444" },
+    { "id": 5, "username": "hanmeimei", "alias": "韩梅梅", "email": "hanmeimei@test.com", "phone": "555555555" }
+  ]
+}
