@@ -3,6 +3,7 @@ import { Navigate } from 'react-router-dom';
 import MainLayout from 'src/layouts/MainLayout';
 import LazyView from 'src/components/LazyView';
 import UserListView from 'src/views/UserListView';
+import LoginView from 'src/views/auth/LoginView';
 import config from 'src/config';
 
 const HomeView = React.lazy(() => import('src/views/HomeView'));
@@ -14,7 +15,9 @@ const routes = [
     path: config.ADMIN_CONTEXT_PATH,
     element: <MainLayout />,
     children: [
+      { path: 'login', element: <LoginView /> },
       { path: 'users', element: <UserListView /> },
+      { path: '/', element: <Navigate to={`${config.ADMIN_CONTEXT_PATH}/login`} /> },
       { path: '*', element: <Navigate to="/404" /> },
     ],
   },
