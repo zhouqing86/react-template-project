@@ -18,7 +18,7 @@ const Toolbar = ({ className, ...rest }) => {
       <Box display="flex" justifyContent="flex-end">
         <RouterLink to={`${Config.ADMIN_CONTEXT_PATH}/user/new`}>
           <Button color="primary" variant="contained">
-            Create new form
+            Create new user
           </Button>
         </RouterLink>
       </Box>

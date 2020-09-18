@@ -36,7 +36,7 @@ React app template
 
 - Run `yarn mockServer` to start local mock api server with [http://localhost:4010](http://localhost:4010)
 
-- Run `yarn start` to start local environment and can be visited with [http://localhost:3000](http://localhost:3000)
+- Run `yarn start` to start local environment and can be visited with [http://localhost:3010](http://localhost:3010)
 
 ### Build
 

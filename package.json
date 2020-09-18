@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.11.0",
+    "@material-ui/icons": "^4.9.1",
     "@reduxjs/toolkit": "^1.4.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
@@ -14,8 +15,10 @@
     "enzyme-adapter-react-16": "^1.15.4",
     "formik": "^2.1.5",
     "history": "^5.0.0",
+    "lodash": "^4.17.20",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
+    "react-cookie": "^4.0.3",
     "react-dom": "^16.13.1",
     "react-feather": "^2.0.8",
     "react-feature": "^2.0.1",
@@ -31,7 +34,7 @@
   },
   "scripts": {
     "postversion": "genversion --semi --es6 src/lib/version.js",
-    "start": "react-scripts start",
+    "start": "cross-env PORT=3010 react-scripts start",
     "build:prod": "cross-env REACT_APP_ENV=prod react-scripts build",
     "build:dev": "cross-env REACT_APP_ENV=dev react-scripts build",
     "postbuild:prod": "mkdirp packages/prod && npm-build-zip --destination=packages/prod",
@@ -43,7 +46,7 @@
     "prettier:check": "prettier --check src/**/*.js",
     "prettier:write": "prettier --write src/**/*.js",
     "serve": "serve -s build -l 5010",
-    "mockServer": "json-server --watch mockdata/db.json --port 4010"
+    "mockServer": "json-server --watch mockdata/db.json  --middlewares mockdata/auth.js --port 4010"
   },
   "eslintConfig": {
     "extends": "react-app"
